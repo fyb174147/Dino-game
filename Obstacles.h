@@ -1,4 +1,4 @@
-#include "LTexture.h"
+#include "Included.h"
 using namespace std;
 
 enum ObstacleType {
@@ -25,6 +25,8 @@ class Obstacle {
         int GetHeight();
         int GetFrame();
         void SetFrame(int _frame);
+        void SetXPos(int _xPos);
+        void SetYPos(int _yPos);
     private:
         int frame = 0;
         int xPos;
@@ -44,28 +46,28 @@ Obstacle::Obstacle(int _type) {
     if (_type == CACTUS_SMALL) {
         type = _type;
         xPos = SCREEN_WIDTH;
-        yPos = 300;
+        yPos = 550;
         width = 60;
         height = 80;
     }
     else if (_type == CACTUS_MEDIUM) {
         type = _type;
         xPos = SCREEN_WIDTH;
-        yPos = 300;
+        yPos = 550;
         width = 93;
         height = 90;
     }
     else if (_type == CACTUS_LARGE) {
         type = _type;
         xPos = SCREEN_WIDTH;
-        yPos = 300;
+        yPos = 550;
         width = 80;
         height = 80;
     }
     else if (_type == BIRD) {
         type = _type;
         xPos = SCREEN_WIDTH;
-        yPos = 300;
+        yPos = 550;
         width = 50;
         height = 50;
     }
@@ -171,4 +173,12 @@ int Obstacle::GetFrame() {
 
 void Obstacle::SetFrame(int _frame) {
     frame = _frame;
+}
+
+void Obstacle::SetXPos(int _xPos) {
+    xPos = _xPos;
+}
+
+void Obstacle::SetYPos(int _yPos) {
+    yPos = _yPos;
 }
