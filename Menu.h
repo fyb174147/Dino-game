@@ -12,7 +12,6 @@ enum Button {
     ENUM_HIDDEN_SHIFT,
     ENUM_SHOWN_SHIFT,
 
-
     ENUM_HIDDEN_SCORE,
     ENUM_SHOWN_SCORE,
 
@@ -26,7 +25,6 @@ enum Button {
 
     ENUM_SHOWN_MAIN_MENU,
     ENUM_HIDDEN_MAIN_MENU,
-
 
     ENUM_REPLAY,
     ENUM_PLAY,
@@ -507,7 +505,7 @@ void Menu::Show() {
             SDL_RenderCopy(gRenderer, textTexture, nullptr, &textRect);
             SDL_DestroyTexture(textTexture);
             SDL_FreeSurface(textSurface);
-            if (status_pause == ENUM_HIDDEN_PAUSE && die == false) {
+            if (status_pause == ENUM_HIDDEN_PAUSE && die == false && count < 33349) {
                 count++;
             }
             std::stringstream ss;

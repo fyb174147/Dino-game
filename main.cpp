@@ -1,6 +1,7 @@
 #include "Obstacles.h"
 #include "Background.h"
 #include "Character.h"
+#include "Meteor.h"
 #include "Menu.h"
 #include "Sound.h"
 using namespace std;
@@ -30,6 +31,8 @@ Obstacle CactusLarge(CACTUS_LARGE);
 Obstacle Bird(BIRD);
 
 Character Dino(DINO, JUMPING);
+
+Meteor BigBoi;
 
 SDL_Rect birdSpriteClips[5];
 SDL_Rect characterSpriteClips[5];
@@ -115,6 +118,7 @@ int main(int args, char *argv[]) {
         bool GameOver = false;
         bool GameStart = false;
         bool GamePause = false;
+        bool MeteorIncoming = false;
 
         bool ShowCredit = false;
 
@@ -179,6 +183,7 @@ int main(int args, char *argv[]) {
                     GameOver = false;
                     GamePause = false;
                     switchCharacterStatus = true;
+                    countObstacles = 0;
                 }
                 else if (MenuStatus == ENUM_CREDIT) {
                     ShowCredit = true;
@@ -187,9 +192,6 @@ int main(int args, char *argv[]) {
 
             if (!GamePause) {
                 MainGameSound.Play(BACKGROUND_MUSIC);
-
-                // moving character
-                Dino.Move(2 * gameSpeed);
 
                 // Generate more grass background
                 {
@@ -250,7 +252,7 @@ int main(int args, char *argv[]) {
 
                 // Generate & destroy some obstacles
                 {
-                    if (totalFrame > 1000 && previousObstacleXPos <= 0) {
+                    if (totalFrame > 1000 && previousObstacleXPos <= 0 && countObstacles < 123) {
                         previousObstacleXPos = 1600;
                         countObstacles++;
                         int CurrentObstacle = Rand() % TOTAL_OBSTACLE_TYPE;
@@ -293,10 +295,11 @@ int main(int args, char *argv[]) {
                 }
 
                 // render stuff
-                SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
+                SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
                 SDL_RenderClear(gRenderer);
                 {
                     for (auto &CurrentSky:SkyQueue) {
+                        if (MeteorIncoming) continue;
                         CurrentSky.Render(gRenderer, NULL, 1600, 900);
                     }
 
@@ -321,7 +324,7 @@ int main(int args, char *argv[]) {
                     }
                 }
                 // render character
-                {
+                if (!GameOver) {
                     int currentCharacterStatus = Dino.GetStatus();
                     if (switchCharacterStatus) {
                         characterFrame = 0;
@@ -335,11 +338,11 @@ int main(int args, char *argv[]) {
                             Dino.LoadFromFile("image/dinoShift.png", gRenderer);
                         }
                     }
-                    if (currentCharacterStatus == DIE) {
-                        if (!Dino.LoadFromFile("image/dinoDie.png", gRenderer)) {
-                            cout << "Cannot load Dino Die\n";
-                        }
-                    }
+//                    if (currentCharacterStatus == DIE) {
+//                        if (!Dino.LoadFromFile("image/dinoDie.png", gRenderer)) {
+//                            cout << "Cannot load Dino Die\n";
+//                        }
+//                    }
                     SDL_Rect *clip = &characterSpriteClips[characterFrame / 20];
                     Dino.Render(gRenderer, clip, 150, 150);
                     characterFrame++;
@@ -354,6 +357,17 @@ int main(int args, char *argv[]) {
                     if (GameStart) {
                         totalFrame += gameSpeed;
                         previousObstacleXPos -= grassSpeed;
+                    }
+                }
+
+                // render Big Boi
+                if (MeteorIncoming) {
+                    BigBoi.SetAct(true);
+                    BigBoi.Move();
+                    BigBoi.Render();
+                    if (BigBoi.Success()) {
+                        Dino.SetStatus(DIE);
+                        MeteorIncoming = false;
                     }
                 }
 
@@ -377,6 +391,9 @@ int main(int args, char *argv[]) {
                         CurrentObstacle.Move(grassSpeed);
                     }
                 }
+
+                // move character
+                Dino.Move(2 * gameSpeed);
 
                 // check collision
                 bool colision = false;
@@ -442,14 +459,32 @@ int main(int args, char *argv[]) {
                 }
 
                 // Quit game after 5 secs after die
+                // Removed this feature
                 /*
                 if (characterFrame == 1300) quit = true;
                 */
+
+                // Big Boi
+                if (countObstacles == 123) {
+                    MeteorIncoming = true;
+                }
             }
             else {
                 MainGameSound.Pause(BACKGROUND_MUSIC);
+                BigBoi.SetAct(false);
                 MainMenu.Show();
                 SDL_RenderPresent(gRenderer);
+            }
+
+            if (GameOver) {
+                Dino.Free();
+                characterFrame = 0;
+                if (!Dino.LoadFromFile("image/dinoDie.png", gRenderer)) {
+                    cout << "Cannot load Dino Die\n";
+                }
+                SDL_Rect *clip = &characterSpriteClips[characterFrame / 20];
+                Dino.Render(gRenderer, clip, 150, 150);
+                characterFrame++;
             }
         }
     }
@@ -595,6 +630,10 @@ bool loadMedia() {
         cout << "Cannot load Menu\n";
         success = false;
     }
+    if (!BigBoi.LoadFromFile(gRenderer)) {
+        cout << "Cannot load Big Boi\n";
+        success = false;
+    }
     if (!MainGameSound.LoadFromFile()) {
         cout << "Cannot load Sound\n";
         success = false;
@@ -614,6 +653,8 @@ void close() {
     Bird.Free();
 
     Dino.Free();
+
+    BigBoi.Free();
 
     MainMenu.Free();
     MainGameSound.Free();
