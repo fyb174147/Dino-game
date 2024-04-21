@@ -15,7 +15,7 @@ We want to be transparent with our users. While we've worked hard to deliver a g
 - Some bugs may occur during gameplay.
 - Optimization could be better in certain areas.
 
-We apologize for any inconvenience these issues may cause. Rest assured, we're actively working to address them and improve the overall experience.
+We apologize for any inconvenience these issues may cause, as this is the first game we ever created.
 
 ## How to Play
 
