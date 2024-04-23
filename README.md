@@ -1,6 +1,7 @@
-# Chrome Dino Recreation
+# Better Chrome Dino
 
 Welcome to our recreation of the classic Chrome Dino game! This project is a labor of love by our team, featuring two skilled programmers and one talented artist. We've put our hearts into revamping this beloved game, adding some fresh twists while staying true to its nostalgic charm.
+(Sorry about my bad English :v)
 
 ## Features
 
