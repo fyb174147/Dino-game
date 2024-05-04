@@ -31,3 +31,14 @@ Just dive in and play it like you would the original game!
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+
+## Some images about this game
+- Main Menu
+![main menu](preview%20image/main%20menu.png)
+- Pause Menu
+![pause menu](preview%20image/pause.png)
+- Dino jumping
+![dino jumping](preview%20image/jumping.png)
+- Dino bowing
+![dino bowing](preview%20image/shifting.png)
+
