@@ -32,6 +32,10 @@ Just dive in and play it like you would the original game!
 
 This project is licensed under the [MIT License](LICENSE).
 
+## Preview video
+
+[Watch the preview video](https://youtu.be/HIzvoskh3e4)
+
 ## Some images about this game
 - Main Menu
 ![main menu](preview%20image/main%20menu.png)
