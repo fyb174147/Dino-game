@@ -15,6 +15,7 @@ enum CharacterType {
 
 class Character {
     public:
+        Character() {}
         Character(int _type, int _status);
         ~Character();
         void Free();

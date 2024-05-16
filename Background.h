@@ -11,6 +11,7 @@ enum BackgroundType {
 
 class Background {
     public:
+        Background() {}
         Background(int _type);
         Background(int _type, int _xPos, int _yPos, int _width, int _height);
         ~Background();

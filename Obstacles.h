@@ -11,6 +11,7 @@ enum ObstacleType {
 
 class Obstacle {
     public:
+        Obstacle() {}
         Obstacle(int _type);
         Obstacle(int _type, int _xPos, int _yPos, int _width, int _height, int _frame);
         ~Obstacle();
